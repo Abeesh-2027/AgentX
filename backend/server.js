@@ -9,21 +9,36 @@ import { getHeadlines } from "./src/news.js";
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
-
-// --- CORS: only allow the configured frontend origin(s) ---
+const normalize = (o) => o.trim().replace(/\/+$/, "");
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
   .split(",")
-  .map((o) => o.trim())
+  .map(normalize)
   .filter(Boolean);
+
+if (allowedOrigins.length === 0) {
+  console.warn(
+    "[CORS] ALLOWED_ORIGINS is not set — allowing all origins. " +
+      "Set it in Render's Environment tab to lock this down."
+  );
+} else {
+  console.log("[CORS] Allowed origins:", allowedOrigins);
+}
 
 app.use(
   cors({
     origin(origin, callback) {
-      // allow same-origin / curl / server-to-server (no origin header)
-      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
+      // no Origin header = curl/server-to-server/same-origin — always allow
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.length === 0) return callback(null, true);
+      if (allowedOrigins.includes(normalize(origin))) return callback(null, true);
+
+      // IMPORTANT: pass `false`, not an Error. Erroring here makes Express
+      // return a 500 with no CORS headers at all, which the browser reports
+      // as a generic CORS failure and hides the real reason. Passing false
+      // just omits the Access-Control-Allow-Origin header, which is what
+      // should actually block the request.
+      console.warn(`[CORS] Rejected origin: "${origin}" — not in ALLOWED_ORIGINS`);
+      return callback(null, false);
     },
   })
 );
