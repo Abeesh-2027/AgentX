@@ -13,7 +13,7 @@ You can chat with the AI, speak commands through your microphone, search Google,
 
 ## Interface
 
-![image alt]()
+![image alt](https://github.com/Abeesh-2027/AgentX/blob/6b99f41bedb9503219e621cf6ba26fbceb4cef64/Screenshot%202026-08-20%20164231.png)
 
 ---
 ## ✨ Features
