@@ -4,7 +4,8 @@
 
 You can chat with the AI, speak commands through your microphone, search Google, get directions, and fetch live news — all from a single responsive interface.
 ---
-# Note
+
+**Note** 
 
   This project is created using the help of claude to learn and create a innovation in chatbots
 ---
