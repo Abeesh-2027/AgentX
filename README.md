@@ -3,13 +3,16 @@
 **AgentX** is a voice-and-text AI agent console that lets users interact with an AI assistant through **text or voice** and perform real-time browser actions using natural language.
 
 You can chat with the AI, speak commands through your microphone, search Google, get directions, and fetch live news — all from a single responsive interface.
+---
+# Note
 
+  This project is created using the help of claude to learn and create a innovation in chatbots
 ---
 ## Screenshot
 
 ## Login Page
 
-![image alt]()
+![image alt](https://github.com/Abeesh-2027/AgentX/blob/1c3b6e8f9964de31f22d24976f99a356628c3e85/Screenshot%202026-08-20%20164256.png)
 
 ## Interface
 
