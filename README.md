@@ -5,7 +5,17 @@
 You can chat with the AI, speak commands through your microphone, search Google, get directions, and fetch live news — all from a single responsive interface.
 
 ---
+## Screenshot
 
+## Login Page
+
+![image alt]()
+
+## Interface
+
+![image alt]()
+
+---
 ## ✨ Features
 
 ### 💬 AI Chat
