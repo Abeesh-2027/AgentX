@@ -9,7 +9,8 @@ import { getHeadlines } from "./src/news.js";
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
-const normalize = (o) => o.trim().replace(/\/+$/, "");
+const normalize = (o) =>
+  o.trim().replace(/^https?:\/\//i, "").replace(/\/+$/, "");
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
   .split(",")
   .map(normalize)
@@ -27,23 +28,16 @@ if (allowedOrigins.length === 0) {
 app.use(
   cors({
     origin(origin, callback) {
-      // no Origin header = curl/server-to-server/same-origin — always allow
+  
       if (!origin) return callback(null, true);
       if (allowedOrigins.length === 0) return callback(null, true);
       if (allowedOrigins.includes(normalize(origin))) return callback(null, true);
-
-      // IMPORTANT: pass `false`, not an Error. Erroring here makes Express
-      // return a 500 with no CORS headers at all, which the browser reports
-      // as a generic CORS failure and hides the real reason. Passing false
-      // just omits the Access-Control-Allow-Origin header, which is what
-      // should actually block the request.
       console.warn(`[CORS] Rejected origin: "${origin}" — not in ALLOWED_ORIGINS`);
       return callback(null, false);
     },
   })
 );
 
-// --- basic abuse protection ---
 app.use(
   "/api/",
   rateLimit({
